@@ -1,10 +1,12 @@
 // resolverMap.ts
 import { IResolvers } from "graphql-tools";
+import { UserModel } from "../data";
 
 const resolverMap: IResolvers = {
   Query: {
-    helloWorld(_: void, args: void): string {
-      return `👋 Hello world! 👋`;
+    users: async (_: void, args: void): Promise<{ name: string }[]> => {
+      const users = await UserModel.find();
+      return users;
     },
   },
 };
