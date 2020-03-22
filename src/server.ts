@@ -36,7 +36,7 @@ const server = new ApolloServer({
   schema,
   validationRules: [depthLimit(7)],
   introspection: true,
-  playground: true
+  playground: true,
 });
 
 app.use("*", cors());
@@ -48,6 +48,6 @@ app.get("/", (req, res) => res.send("Browse to /graphql"));
 
 httpServer.listen({ port: PORT }, (): void =>
   console.log(
-    `\n🚀      GraphQL is now running on http://localhost:${PORT}/graphql`
-  )
+    `\n🚀      GraphQL is now running on http://localhost:${PORT}/graphql`,
+  ),
 );
