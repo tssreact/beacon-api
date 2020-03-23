@@ -1,4 +1,5 @@
 import { compare, hash } from "bcryptjs";
+import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema } from "mongoose";
 import validator from "validator";
 import { config } from "../../config";
@@ -7,6 +8,8 @@ export interface UserSchema extends Document {
   email: string;
   name: string;
   password: string;
+  generateAuthToken(): Promise<string>;
+  tokens: { token: string }[];
 }
 
 export const userSchema = new Schema<UserSchema>({
@@ -26,6 +29,14 @@ export const userSchema = new Schema<UserSchema>({
     minlength: 7,
     validate: (value: string) => !value.toLowerCase().includes("password"),
   },
+  tokens: [
+    {
+      token: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.pre("save", async function (this: UserSchema, next) {
@@ -37,6 +48,16 @@ userSchema.pre("save", async function (this: UserSchema, next) {
 
   next();
 });
+
+userSchema.methods.generateAuthToken = async function () {
+  const user = this;
+  const token = sign({ _id: user._id.toString() }, config.jwtSalt);
+
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+
+  return token;
+};
 
 userSchema.statics.findByCredentials = async (
   email: string,

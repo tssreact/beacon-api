@@ -17,14 +17,15 @@ const resolverMap: IResolvers = {
         password,
         name,
       }: { email: string; password: string; name: string },
-    ) => {
+    ): Promise<{ user: UserSchema; token: string }> => {
       try {
         const user = await UserModel.create({
           email,
           password,
           name,
         });
-        return user;
+        const token = await user.generateAuthToken();
+        return { user, token };
       } catch (error) {
         throw error;
       }
@@ -32,10 +33,11 @@ const resolverMap: IResolvers = {
     login: async (
       _: void,
       { email, password }: { email: string; password: string },
-    ): Promise<UserSchema> => {
+    ): Promise<{ user: UserSchema; token: string }> => {
       try {
         const user = await UserModel.findByCredentials(email, password);
-        return user;
+        const token = await user.generateAuthToken();
+        return { user, token };
       } catch (error) {
         throw error;
       }

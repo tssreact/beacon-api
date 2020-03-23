@@ -8,7 +8,12 @@ type Query {
   users: [User]
 }
 
+type LoginPayload {
+  user: User!
+  token: String!
+}
+
 type Mutation {
-  login(email: String!, password: String!): User!
-  createUser(email: String!, name: String!, password: String!): User!
+  login(email: String!, password: String!): LoginPayload!
+  createUser(email: String!, name: String!, password: String!): LoginPayload!
 }
