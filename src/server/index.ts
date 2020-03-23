@@ -4,9 +4,9 @@ import cors from "cors";
 import express from "express";
 import depthLimit from "graphql-depth-limit";
 import { createServer } from "http";
+import { schema } from "../api";
 import { config } from "../config";
 import { log } from "../log";
-import schema from "../schema";
 
 export const createWebServer = async () => {
   const app = express();
