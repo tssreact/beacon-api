@@ -13,3 +13,5 @@ export class MissingArgumentError extends Error {
     Error.captureStackTrace(this, MissingArgumentError);
   }
 }
+
+export class LoginError extends Error {}

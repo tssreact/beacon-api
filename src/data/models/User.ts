@@ -1,5 +1,6 @@
 import { compare, hash } from "bcryptjs";
 import { config } from "config";
+import { LoginError } from "errors";
 import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema } from "mongoose";
 import validator from "validator";
@@ -65,11 +66,11 @@ userSchema.statics.findByCredentials = async (
 ) => {
   const user = await UserModel.findOne({ email });
   if (!user) {
-    throw new Error("Unable to login");
+    throw new LoginError();
   }
   const isMatch = await compare(password, user.password);
   if (!isMatch) {
-    throw new Error("Unable to login");
+    throw new LoginError();
   }
   return user;
 };
