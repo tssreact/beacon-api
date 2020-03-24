@@ -10,20 +10,22 @@ import { log } from "log";
 
 export const createWebServer = async () => {
   const app = express();
+  app.use("*", cors());
+  app.use(compression());
 
   const server = new ApolloServer({
     schema,
     validationRules: [depthLimit(7)],
     introspection: true,
     playground: true,
+    context: ({ req }) => {
+      return { authorization: req.headers.authorization };
+    },
   });
 
-  app.use("*", cors());
-  app.use(compression());
   server.applyMiddleware({ app, path: "/graphql" });
-  const httpServer = createServer(app);
 
-  app.get("/", (req, res) => res.send("Browse to /graphql"));
+  const httpServer = createServer(app);
 
   httpServer.listen({ port: config.port }, (): void => {
     log(`GraphQL is now running on http://localhost:${config.port}/graphql`);
