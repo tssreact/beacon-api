@@ -1,12 +1,12 @@
+import { schema } from "api";
 import { ApolloServer } from "apollo-server-express";
 import compression from "compression";
+import { config } from "config";
 import cors from "cors";
 import express from "express";
 import depthLimit from "graphql-depth-limit";
 import { createServer } from "http";
-import { schema } from "../api";
-import { config } from "../config";
-import { log } from "../log";
+import { log } from "log";
 
 export const createWebServer = async () => {
   const app = express();

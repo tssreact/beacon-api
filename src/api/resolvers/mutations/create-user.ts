@@ -1,4 +1,4 @@
-import { UserModel, UserSchema } from "../../data";
+import { UserModel, UserSchema } from "data";
 
 export const createUser = async (
   _: void,

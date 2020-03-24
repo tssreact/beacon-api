@@ -1,8 +1,8 @@
 import { compare, hash } from "bcryptjs";
+import { config } from "config";
 import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema } from "mongoose";
 import validator from "validator";
-import { config } from "../../config";
 
 export interface UserSchema extends Document {
   email: string;
