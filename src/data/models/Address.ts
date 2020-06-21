@@ -17,10 +17,7 @@ export const addressSchema = new Schema<AddressSchema>({
     required: true,
     trim: true,
   },
-  location: {
-    type: pointSchema,
-    required: true,
-  },
+  location: pointSchema,
 });
 
 export interface AddressModel extends Model<AddressSchema> {}

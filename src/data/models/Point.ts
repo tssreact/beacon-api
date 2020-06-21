@@ -8,7 +8,6 @@ export interface PointSchema extends Document {
 export const pointSchema = new Schema<PointSchema>({
   location: {
     type: String,
-    enum: ["Point"],
     required: true,
   },
   coordinates: {

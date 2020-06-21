@@ -4,6 +4,18 @@ type User {
   name: String!
 }
 
+type Point {
+  location: String!
+  coordinates: [Int!]!
+}
+
+type Address {
+  _id: String!
+  address: String!
+  postCode: String!
+  location: Point!
+}
+
 type Query {
   users: [User]
 }
@@ -16,4 +28,9 @@ type LoginPayload {
 type Mutation {
   login(email: String!, password: String!): LoginPayload!
   createUser(email: String!, name: String!, password: String!): LoginPayload!
+  createAddress(
+    address: String!
+    postCode: String!
+    location: [Int!]!
+  ): Address!
 }

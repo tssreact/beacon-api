@@ -4,6 +4,7 @@ import { LoginError } from "errors";
 import { sign } from "jsonwebtoken";
 import { Document, model, Model, Schema } from "mongoose";
 import validator from "validator";
+import { addressSchema, AddressSchema } from "./Address";
 
 export interface UserSchema extends Document {
   email: string;
@@ -11,6 +12,7 @@ export interface UserSchema extends Document {
   password: string;
   generateAuthToken(): Promise<string>;
   tokens: { token: string }[];
+  addresses: AddressSchema[];
 }
 
 export const userSchema = new Schema<UserSchema>({
@@ -38,6 +40,9 @@ export const userSchema = new Schema<UserSchema>({
       },
     },
   ],
+  addresses: {
+    type: [addressSchema],
+  },
 });
 
 userSchema.pre("save", async function (this: UserSchema, next) {
